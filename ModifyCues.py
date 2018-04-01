@@ -1,7 +1,7 @@
 import sys
 from ParsePRO5 import *
 
-if len(sys.argv) < 4:
+if len(sys.argv) < 5:
     sys.exit("You must specify a file path, xpath, target property, and new value.")
     
 target = sys.argv[1]    # The path to the document file
