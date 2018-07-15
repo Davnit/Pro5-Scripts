@@ -154,10 +154,10 @@ def dict_to_xml(d, key=None):
     attr = {}
     subs = []
     for k, v in d.items():
-        if type(v) == str:
-            attr[k] = v
-        elif type(v) == dict:
+        if type(v) == dict:
             subs.append(dict_to_xml(v, k))
+        else:
+            attr[k] = str(v)
 
     e = ElementTree.Element(key, attr)
     e.extend(subs)
