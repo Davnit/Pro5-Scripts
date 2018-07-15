@@ -17,13 +17,16 @@ def create_image_slide(width, height, foreground_path):
     file_name = s[0]      # Name of the file without extension, for slide label.
     file_type = s[1][1:]  # File extension, for determining type
 
-    type_lookup = {"jpg": "JPEG image", "png": "Portable Network Graphics image"}
+    type_lookup = {
+        "jpg": "JPEG image", "jpeg": "JPEG image",
+        "png": "Portable Network Graphics image"
+    }
 
-    # Determine type name from lookup
+    # Lookup the file type based on extension. If it's not supported, return None.
     if file_type.lower() in type_lookup:
         file_type = type_lookup[file_type.lower()]
     else:
-        file_type = file_type.upper() + " image"
+        return None
 
     # Determine the absolute URL of the foreground file.
     foreground_path = os.path.abspath(foreground_path)
@@ -164,9 +167,12 @@ def import_images_to_document(document, image_list):
     width = document.getroot().attrib["width"]
     height = document.getroot().attrib["height"]
 
+    # Get slide elements for each image
+    slides = [ create_image_slide(width, height, file) for file in image_list if os.path.isfile(file) ]
+
     # Add each file in the source path to the document's "slides" element
-    slides = document.find("./groups/RVSlideGrouping/slides")
-    slides.extend([ create_image_slide(width, height, file) for file in image_list ])
+    e = document.find("./groups/RVSlideGrouping/slides")
+    e.extend([ s for s in reversed(slides) if s is not None ])
 
 
 # Main script
