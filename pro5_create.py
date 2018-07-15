@@ -176,7 +176,7 @@ def import_images_to_document(document, image_list):
 
 
 # Main script
-if len(sys.argv) > 1:
+if len(sys.argv) == 6 and sys.argv[0] == "pro5_create.py":
     doc_path = sys.argv[1]
     src_path = os.path.abspath(sys.argv[2])
     doc_width = sys.argv[3]
